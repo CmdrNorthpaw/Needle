@@ -1,12 +1,14 @@
 package uk.cmdrnorthpaw.needle.book
 
 import kotlinx.serialization.SerialName
+import uk.cmdrnorthpaw.needle.book.page.Page
 import uk.cmdrnorthpaw.needle.resources.ResourceLocation
 
 class Entry(
     val name: String,
     val categotry: String,
     val icon: ResourceLocation,
+    val pages: List<Page>,
 
     val advancement: String = "",
     val flag: String = "", //TODO
