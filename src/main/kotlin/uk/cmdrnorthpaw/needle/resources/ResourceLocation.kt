@@ -1,34 +1,28 @@
 package uk.cmdrnorthpaw.needle.resources
 
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
+import com.google.gson.*
+import uk.cmdrnorthpaw.needle.model.Serializer
+import java.lang.reflect.Type
 
-@Serializable(with = ResourceLocation.Serializer::class)
-data class ResourceLocation(val namespace: String, val path: String, private val isEmpty: Boolean = true) {
 
-    object Serializer : KSerializer<ResourceLocation> {
-        override val descriptor = PrimitiveSerialDescriptor("resource", PrimitiveKind.STRING)
+data class ResourceLocation(val namespace: String, val path: String, private val isEmpty: Boolean = false) {
 
-        override fun serialize(encoder: Encoder, value: ResourceLocation) {
-            encoder.encodeString(
-                if (!value.isEmpty) "${value.namespace}:${value.path}" else ""
-            )
+    object Serializer : uk.cmdrnorthpaw.needle.model.Serializer<ResourceLocation> {
+        override fun deserialize(json: JsonElement?, typeOfT: Type?,
+                                 context: JsonDeserializationContext?): ResourceLocation {
+            if (json?.asString == "" || json == null) return EMPTY
+
+            val split = json.asString.split(":")
+            return ResourceLocation(split[0], split[1])
         }
 
-        override fun deserialize(decoder: Decoder): ResourceLocation {
-            val decoded = decoder.decodeString()
-            return if (decoded == "") EMPTY
-            else {
-                val (namespace, path) = decoded.split(":")
-                ResourceLocation(namespace, path)
-            }
-
+        override fun serialize(
+            src: ResourceLocation?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement {
+            return if (src == null || src.isEmpty) JsonPrimitive("")
+            else JsonPrimitive("${src.namespace}:${src.path}")
         }
     }
 
