@@ -1,6 +1,6 @@
 package uk.cmdrnorthpaw.needle.book
 
-import kotlinx.serialization.SerialName
+import com.google.gson.annotations.SerializedName
 import uk.cmdrnorthpaw.needle.book.page.Page
 import uk.cmdrnorthpaw.needle.resources.ResourceLocation
 
@@ -12,12 +12,12 @@ class Entry(
 
     val advancement: String = "",
     val flag: String = "", //TODO
-    @SerialName("turnin") val turnInAdvancement: String = "",
+    @SerializedName("turnin") val turnInAdvancement: String = "",
 
-    @SerialName("priority") val hasPriority: Boolean = false,
-    @SerialName("secret") val isSecret: Boolean = false,
-    @SerialName("sortnum") val sortingNumber: Int = 0,
+    @SerializedName("priority") val hasPriority: Boolean = false,
+    @SerializedName("secret") val isSecret: Boolean = false,
+    @SerializedName("sortnum") val sortingNumber: Int = 0,
 
-    @SerialName("extra_recipe_mappings") val extraRecipeMappings: Map<String, Int> = emptyMap()
+    @SerializedName("extra_recipe_mappings") val extraRecipeMappings: Map<String, Int> = emptyMap()
 
 )
