@@ -7,7 +7,6 @@
 
 plugins {
     kotlin("jvm") version "1.5.10"
-    kotlin("plugin.serialization") version "1.5.10"
 }
 
 repositories {
@@ -15,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json","1.2.1")
+    implementation("com.google.code.gson", "gson", "2.8.8")
 }
 
 
